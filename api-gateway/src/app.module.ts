@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { BookModule } from './modules/book/book.module';
+import { CustomerModule } from './modules/customer/customer.module';
 
 @Module({
   imports: [
@@ -13,16 +14,18 @@ import { BookModule } from './modules/book/book.module';
           options: {
             urls: ['amqp://localhost:5672'],
             queue: 'book_queue',
-            noAck: false,
+            noAck: true,
             queueOptions: { durable: true },
           },
         },
         {
           name: 'CUSTOMER-SERVICE',
-          transport: Transport.TCP,
+          transport: Transport.RMQ,
           options: {
-            host: 'localhost',
-            port: 3002,
+            urls: ['amqp://localhost:5672'],
+            queue: 'customer_queue',
+            noAck: true,
+            queueOptions: { durable: true },
           },
         },
         {
@@ -36,6 +39,7 @@ import { BookModule } from './modules/book/book.module';
       ],
     }),
     BookModule,
+    CustomerModule,
   ],
 })
 export class AppModule {}

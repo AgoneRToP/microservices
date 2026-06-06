@@ -65,9 +65,7 @@ export class AppController {
       );
     }
 
-    const existing = await this.model.findByIdAndUpdate(id, payload, {
-      new: true,
-    });
+    const existing = await this.model.findByIdAndUpdate(id, payload);
 
     if (!existing) {
       return throwError(
