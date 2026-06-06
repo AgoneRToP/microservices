@@ -55,7 +55,10 @@ export class AppController {
   }
 
   @MessagePattern('UPDATE_BOOK')
-  async updateBook(@Payload() payload: CreateBookDto, id: string) {
+  async updateBook(@Payload() data: { id: string } & CreateBookDto) {
+    const { id, ...payload } = data;
+    console.log('Updating book with ID:', id);
+
     if (!isObjectIdOrHexString(id)) {
       return throwError(
         () =>

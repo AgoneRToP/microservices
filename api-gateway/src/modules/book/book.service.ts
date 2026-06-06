@@ -19,7 +19,7 @@ export class BookService {
   }
 
   async updateBook(payload: CreateBookDto, id: string) {
-    return this.client.send('UPDATE_BOOK', { ...payload, id });
+    return this.client.send('UPDATE_BOOK', {id, ...payload});
   }
 
   async deleteBook(id: string) {

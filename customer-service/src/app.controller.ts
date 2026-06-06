@@ -53,7 +53,9 @@ export class AppController {
   }
 
   @MessagePattern('UPDATE_CUSTOMER')
-  async updateCustomer(@Payload() payload: CreateCustomerDto, id: string) {
+  async updateCustomer(@Payload() data: { id: string } & CreateCustomerDto) {
+    const { id, ...payload } = data;
+
     if (!isObjectIdOrHexString(id)) {
       return throwError(
         () =>
